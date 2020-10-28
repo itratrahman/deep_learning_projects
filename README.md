@@ -1,4 +1,4 @@
-Deep Learning Projects
+# Deep Learning Projects
 
 ## Repository Description
 This repository contains my deep learning projects. These project cover various domains of AI; ranging from computer vision, to natural language processing, and to time series analysis. The jupyter notebooks here serve as excellent tutorials.

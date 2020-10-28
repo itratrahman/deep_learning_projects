@@ -9,5 +9,11 @@ The classes are completely mutually exclusive. There is no overlap between autom
 ## 1. Setup Instructions
 - Change the directory to cifar_10 using the following command `cd cifar_10`.
 - The python is run in conda environment. To install the necessary packages run the following command: `conda env create -f environment_gpu.yml` (for gpu kernel) or `conda env create -f environment.yml` (for non gpu kernel).
-- Use the following command to download the data : `bash download_data.sh`.
-- Use to following command to run python script the preprocess the image data: `python etl_image_data.py`.
+- Use the following command to download the data : `bash download_data.sh`. This will create a directory `./cifar10`
+- Use to following command to run python script the preprocess the image data: `python etl_image_data.py`. This will create a directory `./cifar10/numpy_data`.
+
+## Directory Description
+Some directories will be created as we run scripts.
+- `./cifar10/` will house train and test folders which will contain train and test image data sets.
+- `./cifar10/numpy_data` contains X and y data of train, valid, and test sets in .npy formats.
+- `./models/` contains keras .h5 model files.
