@@ -7,4 +7,7 @@ The dataset is divided into five training batches and one test batch, each with 
 The classes are completely mutually exclusive. There is no overlap between automobiles and trucks. "Automobile" includes sedans, SUVs, things of that sort. "Truck" includes only big trucks. Neither includes pickup trucks.
 
 ## 1. Setup Instructions
-- The python is run in conda environment. To install the necessary packages use the following command `conda env create -f environment_gpu.yml` (for gpu kernel) or `conda env create -f environment.yml` (for non gpu kernel). 
+- Change the directory to cifar_10 using the following command `cd cifar_10`.
+- The python is run in conda environment. To install the necessary packages run the following command: `conda env create -f environment_gpu.yml` (for gpu kernel) or `conda env create -f environment.yml` (for non gpu kernel).
+- Use the following command to download the data : `bash download_data.sh`.
+- Use to following command to run python script the preprocess the image data: `python etl_image_data.py`.
