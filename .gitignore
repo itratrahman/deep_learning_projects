@@ -156,3 +156,6 @@ checkpoint
 # lock files
 *.lock
 *.dirlock
+
+# numpy file
+*.npy
