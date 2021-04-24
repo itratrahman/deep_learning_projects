@@ -4,12 +4,14 @@ import random
 import math
 import json
 import numpy as np
+from sklearn.utils import shuffle
 from auto_augmentation import CIFAR10Policy
 from PIL import Image
 import cv2
 
-INPUT_DIR = "./cifar10/"
-SAVE_DIRECTORY = "./cifar10/numpy_data/"
+BASE_DIR = os.path.abspath(os.path.dirname("__file__"))
+INPUT_DIR = os.path.join(BASE_DIR, "cifar10")
+SAVE_DIRECTORY = os.path.join(BASE_DIR, "cifar10","numpy_data")
 IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, N_CLASSES = 32,32,3,10
 
 def generate_batch(indices, ids, labels,
@@ -53,15 +55,15 @@ if __name__ == "__main__":
     np.random.seed(numpy_seed)
 
     # create mapping dictionary of classes to labels and labels to classes
-    classes_to_labels = dict(zip(list(os.walk(INPUT_DIR+"train/"))[0][1], [i for i in range(10)]))
-    labels_to_classes = dict(zip([i for i in range(10)], list(os.walk(INPUT_DIR+"train/"))[0][1]))
+    classes_to_labels = dict(zip(list(os.walk(INPUT_DIR+"/train/"))[0][1], [i for i in range(10)]))
+    labels_to_classes = dict(zip([i for i in range(10)], list(os.walk(INPUT_DIR+"/train/"))[0][1]))
 
     # create train labels
     train_ids = []
     train_labels = []
-    for item in list(os.walk(INPUT_DIR+"train/"))[0][1]:
-        for image in list(os.walk(INPUT_DIR+"train/"+str(item)+"/"))[0][2]:
-            train_ids.append(INPUT_DIR+"train/"+str(item)+"/"+image)
+    for item in list(os.walk(INPUT_DIR+"/train/"))[0][1]:
+        for image in list(os.walk(INPUT_DIR+"/train/"+str(item)+"/"))[0][2]:
+            train_ids.append(INPUT_DIR+"/train/"+str(item)+"/"+image)
             train_labels.append(item)
     train_ids = np.array(train_ids)
     train_labels = [classes_to_labels[train_label] for train_label in train_labels]
@@ -86,9 +88,11 @@ if __name__ == "__main__":
                                             N_CLASSES, augment = True, policy=policy)
     X_train = np.append(X_train_1, X_train_2, axis = 0)
     Y_train = np.append(Y_train_1, Y_train_2, axis = 0)
-    X_train_1, X_train_2, Y_train_1, Y_train_2 = None, None, None, None
+    # X_train_1, X_train_2, Y_train_1, Y_train_2 = None, None, None, None
+    X_train_1 = X_train_1/255.0
     X_train = X_train/255.0
     Y_train = np.squeeze(Y_train)
+    X_train, Y_train = shuffle(X_train, Y_train)
     print("Finished creating train image data.\n")
 
     # generate valid data
@@ -102,9 +106,9 @@ if __name__ == "__main__":
     # create train labels
     test_ids = []
     test_labels = []
-    for item in list(os.walk(INPUT_DIR+"test/"))[0][1]:
-        for image in list(os.walk(INPUT_DIR+"test/"+str(item)+"/"))[0][2]:
-            test_ids.append(INPUT_DIR+"test/"+str(item)+"/"+image)
+    for item in list(os.walk(INPUT_DIR+"/test/"))[0][1]:
+        for image in list(os.walk(INPUT_DIR+"/test/"+str(item)+"/"))[0][2]:
+            test_ids.append(INPUT_DIR+"/test/"+str(item)+"/"+image)
             test_labels.append(item)
     test_ids = np.array(test_ids)
     test_labels = [classes_to_labels[test_label] for test_label in test_labels]
@@ -120,11 +124,16 @@ if __name__ == "__main__":
     # make directory to store numpy arrays if a directory does not exists
     if "numpy_data" not in os.listdir(INPUT_DIR):
         os.makedirs(SAVE_DIRECTORY)
+    # if save directory does not exit then create a directory
+    if not os.path.exists(SAVE_DIRECTORY):
+        os.mkdir(SAVE_DIRECTORY)
     # save numpy array
-    np.save(SAVE_DIRECTORY+"X_train.npy", X_train)
-    np.save(SAVE_DIRECTORY+"X_valid.npy", X_valid)
-    np.save(SAVE_DIRECTORY+"X_test.npy", X_test)
-    np.save(SAVE_DIRECTORY+"Y_train.npy", Y_train)
-    np.save(SAVE_DIRECTORY+"Y_valid.npy", Y_valid)
-    np.save(SAVE_DIRECTORY+"Y_test.npy", Y_test)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_train.npy"), X_train)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_train_pure.npy"), X_train_1)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_valid.npy"), X_valid)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_test.npy"), X_test)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_train.npy"), Y_train)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_pure.npy"), Y_train_pure)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_valid.npy"), Y_valid)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_test.npy"), Y_test)
     print("Saved data in numpy arrays.\n")
