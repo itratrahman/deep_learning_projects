@@ -133,7 +133,7 @@ if __name__ == "__main__":
     np.save(os.path.join(SAVE_DIRECTORY, "X_valid.npy"), X_valid)
     np.save(os.path.join(SAVE_DIRECTORY, "X_test.npy"), X_test)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_train.npy"), Y_train)
-    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_pure.npy"), Y_train_pure)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_pure.npy"), Y_train_1)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_valid.npy"), Y_valid)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_test.npy"), Y_test)
     print("Saved data in numpy arrays.\n")
