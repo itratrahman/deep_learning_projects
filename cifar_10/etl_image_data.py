@@ -37,12 +37,12 @@ def generate_batch(indices, ids, labels,
         X[n] = img.astype(np.float32)
         # del image to save runtime memory
         del(img)
-        Y = np.array(labels[indices])
-        # if onehot encoding is wanted
-        if one_hot_encode:
-            Y = np.eye(N_CLASSES)[Y]
-        else:
-            Y = Y[:,np.newaxis]
+    Y = np.array(labels[indices])
+    # if onehot encoding is wanted
+    if one_hot_encode:
+        Y = np.eye(N_CLASSES)[Y]
+    else:
+        Y = Y[:,np.newaxis]
 
     return X, Y
 
@@ -55,15 +55,15 @@ if __name__ == "__main__":
     np.random.seed(numpy_seed)
 
     # create mapping dictionary of classes to labels and labels to classes
-    classes_to_labels = dict(zip(list(os.walk(INPUT_DIR+"/train/"))[0][1], [i for i in range(10)]))
-    labels_to_classes = dict(zip([i for i in range(10)], list(os.walk(INPUT_DIR+"/train/"))[0][1]))
+    classes_to_labels = dict(zip(list(os.walk(os.path.join(INPUT_DIR, "train")))[0][1], [i for i in range(10)]))
+    labels_to_classes = dict(zip([i for i in range(10)], list(os.walk(os.path.join(INPUT_DIR, "train")))[0][1]))
 
     # create train labels
     train_ids = []
     train_labels = []
-    for item in list(os.walk(INPUT_DIR+"/train/"))[0][1]:
-        for image in list(os.walk(INPUT_DIR+"/train/"+str(item)+"/"))[0][2]:
-            train_ids.append(INPUT_DIR+"/train/"+str(item)+"/"+image)
+    for item in list(os.walk(os.path.join(INPUT_DIR, "train")))[0][1]:
+        for image in list(os.walk(os.path.join(INPUT_DIR, "train", str(item))))[0][2]:
+            train_ids.append(os.path.join(INPUT_DIR, "train", str(item), image))
             train_labels.append(item)
     train_ids = np.array(train_ids)
     train_labels = [classes_to_labels[train_label] for train_label in train_labels]
@@ -106,9 +106,9 @@ if __name__ == "__main__":
     # create train labels
     test_ids = []
     test_labels = []
-    for item in list(os.walk(INPUT_DIR+"/test/"))[0][1]:
-        for image in list(os.walk(INPUT_DIR+"/test/"+str(item)+"/"))[0][2]:
-            test_ids.append(INPUT_DIR+"/test/"+str(item)+"/"+image)
+    for item in list(os.walk(os.path.join(INPUT_DIR, "test")))[0][1]:
+        for image in list(os.walk(os.path.join(INPUT_DIR, "test", str(item))))[0][2]:
+            test_ids.append(os.path.join(INPUT_DIR, "test", str(item),image))
             test_labels.append(item)
     test_ids = np.array(test_ids)
     test_labels = [classes_to_labels[test_label] for test_label in test_labels]
