@@ -80,23 +80,16 @@ if __name__ == "__main__":
     print()
 
     # generate train data
-    X_train_pure, Y_train_pure = generate_batch(train_indices, train_ids, train_labels,
-                                          IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
-                                          N_CLASSES, augment = False)
     X_train_1, Y_train_1 = generate_batch(train_indices, train_ids, train_labels,
                                           IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
-                                          N_CLASSES, augment = True, policy=policy)
+                                          N_CLASSES, augment = False)
     X_train_2, Y_train_2 = generate_batch(train_indices, train_ids, train_labels,
                                             IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
                                             N_CLASSES, augment = True, policy=policy)
-    X_train_3, Y_train_3 = generate_batch(train_indices, train_ids, train_labels,
-                                            IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
-                                            N_CLASSES, augment = True, policy=policy)
-
-    X_train = np.concatenate((X_train_1, X_train_2, X_train_3), axis = 0)
-    Y_train = np.concatenate((Y_train_1, Y_train_2, Y_train_3), axis = 0)
-
-    X_train_pure = X_train_pure/255.0
+    X_train = np.append(X_train_1, X_train_2, axis = 0)
+    Y_train = np.append(Y_train_1, Y_train_2, axis = 0)
+    # X_train_1, X_train_2, Y_train_1, Y_train_2 = None, None, None, None
+    X_train_1 = X_train_1/255.0
     X_train = X_train/255.0
     Y_train = np.squeeze(Y_train)
     X_train, Y_train = shuffle(X_train, Y_train)
@@ -136,11 +129,11 @@ if __name__ == "__main__":
         os.mkdir(SAVE_DIRECTORY)
     # save numpy array
     np.save(os.path.join(SAVE_DIRECTORY, "X_train.npy"), X_train)
-    np.save(os.path.join(SAVE_DIRECTORY, "X_train_pure.npy"), X_train_pure)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_train_pure.npy"), X_train_1)
     np.save(os.path.join(SAVE_DIRECTORY, "X_valid.npy"), X_valid)
     np.save(os.path.join(SAVE_DIRECTORY, "X_test.npy"), X_test)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_train.npy"), Y_train)
-    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_pure.npy"), Y_train_pure)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_pure.npy"), Y_train_1)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_valid.npy"), Y_valid)
     np.save(os.path.join(SAVE_DIRECTORY, "Y_test.npy"), Y_test)
     print("Saved data in numpy arrays.\n")
