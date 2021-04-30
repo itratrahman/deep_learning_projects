@@ -120,6 +120,7 @@ ENV/
 # picture files
 *.png
 *.jpg
+*.JPG
 *.tif
 *.jpeg
 *.html
