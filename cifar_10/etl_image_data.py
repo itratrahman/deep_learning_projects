@@ -1,5 +1,6 @@
 import os
 import time
+import argparse
 import random
 import math
 import json
@@ -9,10 +10,19 @@ from auto_augmentation import CIFAR10Policy
 from PIL import Image
 import cv2
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--img_size", "-size",
+                    type=int, help="size of the image")
+
 BASE_DIR = os.path.abspath(os.path.dirname("__file__"))
 INPUT_DIR = os.path.join(BASE_DIR, "cifar10")
 SAVE_DIRECTORY = os.path.join(BASE_DIR, "cifar10","numpy_data")
-IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, N_CLASSES = 32,32,3,10
+
+args = parser.parse_args()
+IMG_HEIGHT = IMG_WIDTH = \
+args.img_size if (args.img_size is not None) else 32
+
+IMG_CHANNELS, N_CLASSES = 3,10
 
 def generate_batch(indices, ids, labels,
                    IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
@@ -53,6 +63,8 @@ if __name__ == "__main__":
     random.seed(radom_seed)
     numpy_seed = 0
     np.random.seed(numpy_seed)
+
+    print("Image dimension:{}x{}x{}\n".format(IMG_HEIGHT,IMG_WIDTH,IMG_CHANNELS))
 
     # create mapping dictionary of classes to labels and labels to classes
     classes_to_labels = dict(zip(list(os.walk(os.path.join(INPUT_DIR, "train")))[0][1], [i for i in range(10)]))
