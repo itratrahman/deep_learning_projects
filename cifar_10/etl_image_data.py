@@ -29,8 +29,8 @@ def generate_batch(indices, ids, labels,
     for n, id_ in enumerate(batch_ids):
         img = cv2.imread(id_)
         # resize image
-        if img.shape[0] != 32 or img.shape[1] != 32:
-            img = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH))
+        if img.shape[0] != IMG_HEIGHT or img.shape[1] != IMG_WIDTH:
+            img = cv2.resize(img, (IMG_HEIGHT, IMG_WIDTH))
         if augment:
             img = np.array(policy(Image.fromarray(img.astype(np.uint8))))
         # store the image in the designated numpy array
