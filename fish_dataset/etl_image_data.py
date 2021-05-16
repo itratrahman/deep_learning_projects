@@ -20,9 +20,9 @@ SAVE_DIRECTORY = os.path.join(BASE_DIR, "data", "numpy_data")
 
 args = parser.parse_args()
 IMG_HEIGHT = IMG_WIDTH = \
-args.img_size if (args.img_size is not None) else 32
+args.img_size if (args.img_size is not None) else 256
 
-IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, N_CLASSES = 256,256,3,9
+IMG_HEIGHT, N_CLASSES = 3,9
 
 def generate_batch(indices, ids, labels,
                    IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
