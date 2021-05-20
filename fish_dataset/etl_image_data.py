@@ -22,7 +22,7 @@ args = parser.parse_args()
 IMG_HEIGHT = IMG_WIDTH = \
 args.img_size if (args.img_size is not None) else 256
 
-IMG_HEIGHT, N_CLASSES = 3,9
+IMG_CHANNELS, N_CLASSES = 3,9
 
 def generate_batch(indices, ids, labels,
                    IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS,
@@ -117,8 +117,8 @@ if __name__ == "__main__":
     if not os.path.exists(SAVE_DIRECTORY):
         os.mkdir(SAVE_DIRECTORY)
     # save numpy array
-    np.save(os.path.join(SAVE_DIRECTORY, "X_train.npy"), X_train)
-    np.save(os.path.join(SAVE_DIRECTORY, "X_valid.npy"), X_valid)
-    np.save(os.path.join(SAVE_DIRECTORY, "Y_train.npy"), Y_train)
-    np.save(os.path.join(SAVE_DIRECTORY, "Y_valid.npy"), Y_valid)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_train_{}.npy".format(IMG_HEIGHT)), X_train)
+    np.save(os.path.join(SAVE_DIRECTORY, "X_valid_{}.npy".format(IMG_HEIGHT)), X_valid)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_train_{}.npy".format(IMG_HEIGHT)), Y_train)
+    np.save(os.path.join(SAVE_DIRECTORY, "Y_valid_{}.npy".format(IMG_HEIGHT)), Y_valid)
     print("Saved data in numpy arrays.\n")
